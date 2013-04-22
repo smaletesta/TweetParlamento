@@ -1,0 +1,7 @@
+parameters:
+#    adis_iwatchyou.example.class: Adis\IwatchyouBundle\Example
+
+services:
+#    adis_iwatchyou.example:
+#        class: %adis_iwatchyou.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

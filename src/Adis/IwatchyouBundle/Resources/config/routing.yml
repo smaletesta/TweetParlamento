@@ -1,0 +1,27 @@
+adis_iwatchyou_homepage:
+    pattern:  /
+    defaults: { _controller: AdisIwatchyouBundle:Default:index }
+adis_iwatchyou_getparlamentari:
+    pattern:  /getparlamentari
+    defaults: { _controller: AdisIwatchyouBundle:Default:getParlamentari }
+    requirements:
+      _method:  POST
+adis_iwatchyou_searchparlamentari:
+    pattern:  /searchparlamentari
+    defaults: { _controller: AdisIwatchyouBundle:Default:searchParlamentari }
+    requirements:
+      _method:  POST
+adis_iwatchyou_dettagli:
+    pattern: /parlamentare/{id}
+    defaults: { _controller: AdisIwatchyouBundle:Default:dettagli }
+    requirements:
+      _method:  GET
+      id: \d+
+adis_iwatchyou_getdata:
+    pattern:  /getdata
+    defaults: { _controller: AdisIwatchyouBundle:Default:getData }
+    requirements:
+      _method:  POST
+adis_iwatchyou_about:
+    pattern:  /about
+    defaults: { _controller: AdisIwatchyouBundle:Default:about }

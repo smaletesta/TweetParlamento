@@ -1,0 +1,82 @@
+{% extends "AdisIwatchyouBundle::base.html.twig" %}
+{% block content_sidebar %}
+{% include 'AdisIwatchyouBundle:Include:formRicerca.html.twig' %}
+{% include 'AdisIwatchyouBundle:Include:mostFollowed.html.twig' %}
+{% include 'AdisIwatchyouBundle:Include:mostActive.html.twig' %}
+{% endblock content_sidebar %}
+{% block navbar %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner navbar-custom">
+    <div class="container-fluid">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+            <a class="brand" href="{{ path('adis_iwatchyou_homepage') }}"><i class="icon-comments"></i> TweetParlamento</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active"><a href="{{ path('adis_iwatchyou_about') }}">About</a></li>
+        </ul>
+        <ul class="nav pull-right">  
+            <li class="dropdown">  
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-twitter"></i>
+                    <i class="icon-facebook"></i>
+                    <i class="icon-google-plus"></i>
+                    Social  
+                    <b class="caret"></b>  
+                </a>  
+                <ul class="dropdown-menu">
+                    <li class="socials"><a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
+                    <li class="socials"><div class="fb-like" data-href="http://www.tweetparlamento.it" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div></li>  
+                    <li class="socials">
+                        <div class="g-plusone" data-size="medium"></div>
+
+                        <script type="text/javascript">
+                          window.___gcfg = {lang: 'it'};
+
+                          (function() {
+                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                            po.src = 'https://apis.google.com/js/plusone.js';
+                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                          })();
+                        </script>
+                    </li>                          
+                </ul>  
+            </li>  
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+{% endblock navbar %}
+{% block content_content %}
+<div class="hero-unit">
+  <h1>TweetParlamento</h1>
+  <h4>Il Parlamento italiano in 140 caratteri</h4>
+  <p>I social network hanno cambiato il nostro modo di comunicare. 
+      Inevitabilmente, anche se un po' a fatica, la politica e i politici 
+      si stanno adeguando. Si tratta di un'opportunità per tutti: per i 
+      cittadini, che possono comunicare direttamente con i loro 
+      rappresentanti in Parlamento, e per i politici che, aprendosi al dialogo,
+      possono essere percepiti come meno distanti.
+  </p>
+  <p>Da queste considetazioni nasce TweetParlamento. Chi sono i Parlamentati
+      che hanno un account twitter? Come lo usano? Di cosa discutono? 
+      Come interagiscono con i cittadini? Per rispondere a queste e a altre domande
+      l'app analizza i profili e i tweet dei parlamentari italiani, individuando
+      le parole più ricorrenti, calcolando l'engagement degli update,
+      il numero di follower e di following. Ah, dimenticavo... se hai qualcosa da
+      chiedere a un tuo rappresentante perché non lo fai con un tweet?
+  </p>
+</div>
+<p>TweetParlamento è opera di <a href="https://twitter.com/antoniodistante" target="_blank">Antonio Distante</a> ed è liberamente ispirato da 
+    <a href="http://apps.spaghettiopendata.org/tweetyourmep" target="_blank">TweetYourMEP</a> dei ragazzi di <a href="https://twitter.com/spaghetti_folks" target="_blank">Spaghetti Open Data</a>. Un grazie enorme a Maurizio,
+    Salvatore e Carlo che mi hanno dato una mano e spero continueranno a farlo. ;)
+</p>
+<p>Hai qualche suggerimento? Mi è sfuggito l'account di qualche Parlamentare? 
+    Vuoi collaborare? <a href="http://twitter.com/intent/tweet/?text=@antoniodistante&hashtags=tweetparlamento">Twittami!</a>
+</p>
+{% endblock content_content %}

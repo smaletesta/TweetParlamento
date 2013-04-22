@@ -1,0 +1,133 @@
+@media (max-width: 979px) {
+  .span12-tablet {
+    width: 91.48936170212765% !important;
+    *width: 91.43617021276594% !important;
+  }
+  
+}
+
+body {
+    padding-top: 60px;
+}
+
+.navbar-custom {
+    background-image:-moz-linear-gradient(top,#4B6176,#243A4F) !important;
+    background-image:-webkit-gradient(linear,0 0,0 100%,from(#4B6176),to(#243A4F)) !important;
+    background-image:-webkit-linear-gradient(top,#4B6176,#243A4F) !important;
+    background-image:-o-linear-gradient(top,#4B6176,#243A4F) !important;
+    background-image:linear-gradient(to bottom,#4B6176,#243A4F) !important;
+    border-color: #8DA4BB !important
+}
+
+.active-custom a {
+    background-color: #243A4F !important;
+}
+
+.navbar-custom a {
+    color: #DDDDDD ! important;
+}
+
+.navbar-custom a:hover {
+    color: #ffffff ! important;
+}
+
+.name-custom {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.more-info {
+    margin-bottom: 20px;
+}
+
+.btn-custom {
+    margin-top: 5px;
+}
+
+.list-nome {
+    position: relative !important;
+    left:-30px !important;
+}
+
+.list-custom {
+    position: relative !important;
+    padding-bottom: 10px !important;
+}
+
+.img-list-custom {
+    position: relative !important;
+
+}
+
+.pin {
+    position:relative !important;
+    top:28px !important;
+    z-index: 1;
+    left: -20px !important;
+    
+}
+
+.pin-container {
+    float: left;
+}
+
+#wordcloud {
+    visibility: hidden;
+    height: 300px;
+    width: 100%
+}
+
+#wordcloud-home {
+    visibility: hidden;
+    height: 400px;
+    width: 100%
+}
+
+.title-custom {
+    margin-top: 0 !important;
+}
+
+#follower {
+    width: 100%;
+    height: 100%
+}
+
+#following {
+    width: 100%;
+    height: 100%
+}
+
+.legend-form {
+    margin-bottom: 0px !important;
+}
+.tooltip {
+   font-size: 1em;
+   opacity: 1;
+   padding: 0;
+   position: absolute;
+   z-index: 12;
+   color: #888;
+   background: #fff;
+   border: 1px solid #aaa;
+   -moz-box-shadow: 0px 1px 1px #ddd;
+   -webkit-box-shadow: 0px 1px 1px #ddd;
+   box-shadow: 0px 1px 2px #ddd;
+}
+
+.tooltip-container {
+   position: relative;
+   text-align: left;
+   margin: 3px;
+   max-width:250px;
+}
+
+.tooltip-img { float: left; margin-right: 5px;}
+
+.tooltip span { font-size: 0.9em; display: block; }
+
+.socials {  
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

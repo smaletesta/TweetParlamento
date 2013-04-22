@@ -1,0 +1,21 @@
+{% form_theme form with 'AdisIwatchyouBundle:Form:fields.html.twig' %}
+<form action="{{ path('adis_iwatchyou_homepage') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+        
+        <legend class="legend-form">Cerca tra i Parlamentari</legend>
+        {{ form_errors(form) }}
+        <div class="control-group">
+            <div class="controls">
+                {{ form_row(form.nome) }}
+            </div>
+        <div class="control-group">
+        {{ form_row(form.ramo) }}
+        {{ form_row(form.regione) }}
+        {{ form_row(form.partito) }}
+
+
+        {{ form_rest(form) }}
+        <div class="clearfix"></div>
+        <button type="submit" class="btn btn-primary">Cerca</button>
+  </fieldset>
+</form>

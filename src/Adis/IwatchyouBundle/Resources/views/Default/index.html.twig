@@ -1,0 +1,55 @@
+{% extends "AdisIwatchyouBundle::base.html.twig" %}
+{% block content_sidebar %}
+{% include 'AdisIwatchyouBundle:Include:formRicerca.html.twig' %}
+{% include 'AdisIwatchyouBundle:Include:mostFollowed.html.twig' %}
+{% include 'AdisIwatchyouBundle:Include:mostActive.html.twig' %}
+{% endblock content_sidebar %}
+{% block content_content %}
+{% if cloud|length > 0 %}
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="page-header"><h3>Di cosa <em>#twittano</em></h3></div>
+            <div id="wordcloud-home">
+            {% for key, frequency in cloud %}
+                <span data-weight="{{ frequency }}">{{ key }}</span>
+            {% endfor%}
+            </div>
+        </div>
+    </div>
+{% endif %}
+<div class="row-fluid">
+    <div class="span12 page-header"><h3>Chi sono</h3></div>
+</div>
+<div id="risultati">
+    {% for parlamentare in parlamentari %}
+        {% if loop.index is odd %}
+        <div class="row-fluid">
+        {% endif %}
+        <div class="span6">
+            <div class="well clearfix">
+                <div class="span4">
+                    <a href="parlamentare/{{ parlamentare.id }}"><img src="{{ parlamentare.profileImage|replace({"_normal" : "_bigger"}) }}" class="img-polaroid"></img></a>
+                    <a href="http://twitter.com/intent/tweet/?text=@{{ parlamentare.screenname }}&hashtags=tweetparlamento" class="btn btn-primary btn-custom"><i class="icon-twitter"></i> Twitta</a>
+                </div>
+                <div class="span8 nome-parlamentare">
+                    <a href="parlamentare/{{ parlamentare.id }}"><h3 class="name-custom">{{ parlamentare.nome }} {{ parlamentare.cognome }}</h3></a>
+                    <div class="more-info"><em>{{ parlamentare.gruppo }} - {{ parlamentare.ramo|capitalize }}. Regione d'elezione: {{ parlamentare.circoscrizione }}</em></div>
+                    <div><p>{{ parlamentare.bio }}</p></div>
+                </div>
+            </div>
+        </div>
+        {% if loop.index is even or loop.last%}
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% if end %}
+        <div id="end"></div>
+    {% endif %}
+</div>
+<div id="loading"><p class="text-center"><i class="icon-spinner icon-spin icon-2x"></i></p></div>
+{% if location == 'home' %}
+    <script type="text/javascript">var url = '\getparlamentari';</script>
+{% elseif location == 'search' %}
+    <script type="text/javascript">var url = '\searchparlamentari';</script>
+{% endif %}
+{% endblock content_content %}

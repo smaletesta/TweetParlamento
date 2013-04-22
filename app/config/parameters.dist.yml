@@ -1,0 +1,14 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: yourhost
+    database_port: null
+    database_name: yourdb
+    database_user: youruser
+    database_password: yourpassword
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: it
+    secret: yoursecret
+    database_path: null

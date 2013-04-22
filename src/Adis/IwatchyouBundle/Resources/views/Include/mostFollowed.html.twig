@@ -1,0 +1,16 @@
+<div class="row-fluid hidden-phone">
+    <div class="span12">
+        <legend>I più seguiti</legend>
+        <ul class="unstyled">
+        {% for seguito in  mostFollowed %}
+            <li class="list-custom">
+                <div class="pin-container">
+                    <a href="{{ path('adis_iwatchyou_dettagli', {'id': seguito.id}) }}"><img src="{{ seguito.profileImage }}" class="img-polaroid img-list-custom"></img></a>
+                    <span class="badge badge-info pin"><em>#</em> {{ loop.index }}</span>
+                </div>
+                <a href="{{ path('adis_iwatchyou_dettagli', {'id': seguito.id}) }}"><h5 class="list-nome">{{ seguito.nome }}<br/>{{ seguito.cognome|capitalize }}</h5></a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>

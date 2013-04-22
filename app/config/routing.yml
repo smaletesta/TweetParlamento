@@ -1,0 +1,3 @@
+adis_iwatchyou:
+    resource: "@AdisIwatchyouBundle/Resources/config/routing.yml"
+

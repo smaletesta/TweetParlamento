@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+{% block html_tag %}
+<html>
+{% endblock html_tag %}
+
+{% block head %}
+<head>
+    <meta charset="UTF-8" />
+    {% block head_style %}
+    {# Override this block to add your own files! #}
+    {% stylesheets 
+        'bundles/adisiwatchyou/css/bootstrap.min.css'
+        'bundles/adisiwatchyou/css/application.css'
+        'bundles/adisiwatchyou/css/bootstrap-responsive.min.css'
+        'bundles/adisiwatchyou/css/font-awesome.min.css'
+        'bundles/adisiwatchyou/css/daterangepicker.css'
+    filter='cssrewrite' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+    {# To use this without less use the base_css.html.twig template as your base
+     # Be sure you understand whats going on: have a look into
+     # https://github.com/phiamo/MopaBootstrapBundle/blob/master/Resources/doc/css-vs-less.md
+     #}
+    <meta property="og:title" content="TweetParlamento - Il Parlamento Italiano in 140 caratteri" />
+    <meta property="og:description" content="Chi sono i Parlamentati
+      che hanno un account twitter? Come lo usano? Di cosa discutono? 
+      Come interagiscono con i cittadini? Per rispondere a queste e a altre domande
+      l'app analizza i profili e i tweet dei parlamentari italiani, individuando
+      le parole più ricorrenti, calcolando l'engagement degli update,
+      il numero di follower e di following. Ah, dimenticavo... se hai qualcosa da
+      chiedere a un tuo rappresentante perché non lo fai con un tweet?" />
+    <meta property="og:image" content="{{ asset('bundles/adisiwatchyou/img/share.png') }}" />
+    {% endblock head_style %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block head_script %}
+    {# Overwrite this block to add your own js here, to get them generated into final files #}
+    {% endblock head_script %}
+
+    <title>{% block title %}TweetParlamento - Il Parlamento Italiano in 140 caratteri{% endblock title %}</title>
+    <link rel="shortcut icon" href="{{ asset('bundles/adisiwatchyou/img/favicon.png') }}" />
+    {% block head_bottom %}
+    {% endblock head_bottom %}
+</head>
+{% endblock head %}
+
+{% block body_tag %}
+<body>
+{% endblock body_tag %}
+
+{% block body_start %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock body_start %}
+
+{% block body %}
+    {% block navbar %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner navbar-custom">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="brand" href="{{ path('adis_iwatchyou_homepage') }}"><i class="icon-comments"></i> TweetParlamento</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="{{ path('adis_iwatchyou_about') }}">About</a></li>
+            </ul>
+            <ul class="nav pull-right">  
+                <li class="dropdown">  
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-twitter"></i>
+                        <i class="icon-facebook"></i>
+                        <i class="icon-google-plus"></i>
+                        Social  
+                        <b class="caret"></b>  
+                    </a>  
+                    <ul class="dropdown-menu">
+                        <li class="socials"><a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
+                        <li class="socials"><div class="fb-like" data-href="http://www.tweetparlamento.it" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div></li>  
+                        <li class="socials">
+                            <div class="g-plusone" data-size="medium"></div>
+
+                            <script type="text/javascript">
+                              window.___gcfg = {lang: 'it'};
+
+                              (function() {
+                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                po.src = 'https://apis.google.com/js/plusone.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                              })();
+                            </script>
+                        </li>                          
+                    </ul>  
+                </li>  
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    {% endblock navbar %}
+
+    {% block container %}
+    <div class="container-fluid">
+        {% block content_row %}
+        <div class="row-fluid">
+            {% block content %}
+            <div class="span3 hidden-tablet">
+                {% block content_sidebar %}
+                <h2>Sidebar</h2>
+                {% endblock content_sidebar %}
+            </div>
+            <div class="span9 span12-tablet">
+                {% block flashes %}
+                    {% for message in app.session.flashbag.get('error') %}               
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.session.flashbag.get('notice') %}
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}    
+
+                {% endblock flashes %}
+                {% block content_content %}
+                <strong>Contenuto </strong>
+                {% endblock content_content %}
+            </div>
+            {% endblock content %}
+        </div>
+        {% endblock content_row %}
+        {% block footer %}
+        <!--<footer>
+            <p>Footer</p>
+        </footer>-->
+        {% endblock footer %}
+    </div> <!-- /container -->
+    {% endblock container %}
+    {% block foot_script %}
+    {# To only use a subset or add more js overwrite and copy paste this block
+    To speed up page loads save a copy of jQuery in your project and override this block to include the correct path
+    Otherwise the regeneration is done on every load in dev more with use_controller: true
+     #}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    {% javascripts
+        '@AdisIwatchyouBundle/Resources/public/js/bootstrap.min.js'
+        '@AdisIwatchyouBundle/Resources/public/js/jquery.awesomeCloud-0.2.min.js'
+        '@AdisIwatchyouBundle/Resources/public/js/infinite-scroll.js'
+        '@AdisIwatchyouBundle/Resources/public/js/tagcloud.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+
+    {% endjavascripts %}
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-613773-8', 'tweetparlamento.it');
+  ga('send', 'pageview');
+
+</script>
+    {% endblock foot_script %}
+{% endblock body %}
+</body>
+</html>

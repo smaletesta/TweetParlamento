@@ -1,0 +1,16 @@
+<div class="row-fluid hidden-phone">
+    <div class="span12">
+        <legend>I più attivi</legend>
+        <ul class="unstyled">
+        {% for attivo in  mostActive %}
+            <li class="list-custom">
+                <div class="pin-container">
+                    <a href="{{ path('adis_iwatchyou_dettagli', {'id': attivo.id}) }}"><img src="{{ attivo.profileImage }}" class="img-polaroid img-list-custom"></img></a>
+                    <span class="badge badge-info pin"><em>#</em> {{ loop.index }}</span>
+                </div>
+                <a href="{{ path('adis_iwatchyou_dettagli', {'id': attivo.id}) }}"><h5 class="list-nome">{{ attivo.nome }}<br/>{{ attivo.cognome|capitalize }}</h5></a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>  
