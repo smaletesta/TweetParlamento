@@ -32,7 +32,7 @@ class DefaultController extends Controller {
                 $session = $this->get('session');
                 $session->set('data', $data);
                 $tweets = $repositoryTweet->findCloudByPoliticiFromDate($data['nome'], $data['ramo'], $data['regione'], $data['partito'], $dataInizio);
-                $cloud = array_slice($this->wordFrequency($tweets), 0, 30);
+                $cloud = $this->wordFrequency($tweets);
                 $parlamentariCount = $repositoryPolitico->findParlamentariCount($data['nome'], $data['ramo'], $data['regione'], $data['partito']);
                 if($parlamentariCount == 0) {
                     $session->getFlashBag()->add('error', 'La ricerca non ha prodotto risultati, prova a cercare qualcos\'altro');
@@ -50,7 +50,7 @@ class DefaultController extends Controller {
             }
         }
         $tweets = $repositoryTweet->findCloudFromDate($dataInizio);
-        $cloud = array_slice($this->wordFrequency($tweets), 0, 30);
+        $cloud = $this->wordFrequency($tweets);
         $count = $repositoryPolitico->findAllParlamentariCount();
         $totalPages = ceil($count / $this->maxResults);
         $end = false;
@@ -73,6 +73,14 @@ class DefaultController extends Controller {
             }
         }
         arsort($frequencyList);
+        $frequencyList =  array_slice($frequencyList, 0, 20);
+        $totalFrequency = 0;
+        foreach ($frequencyList as $frequency){
+            $totalFrequency += $frequency;
+        }
+        foreach ($frequencyList as $word => $frequency){
+            $frequencyList[$word] = $frequency / $totalFrequency * 100;
+        }
         return $frequencyList;
     }
 
@@ -171,7 +179,7 @@ class DefaultController extends Controller {
         $dataInizioCloud = new DateTime('-15 days');
         $repositoryTweet = $em->getRepository('AdisIwatchyouBundle:Tweet');
         $tweets = $repositoryTweet->findCloudByPoliticoFromDate($dataInizioCloud, $id);
-        $cloud = array_slice($this->wordFrequency($tweets), 0, 30);
+        $cloud = $this->wordFrequency($tweets);
         return $this->render('AdisIwatchyouBundle:Default:dettagli.html.twig', array('cloud' => $cloud, 'statistiche' => $statistiche, 'parlamentare' => $politico, 'form' => $form->createView(), 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'dataInizio' => $dataInizio->format('Y-m-d'), 'dataFine' => $dataFine->format('Y-m-d')));
     }
     

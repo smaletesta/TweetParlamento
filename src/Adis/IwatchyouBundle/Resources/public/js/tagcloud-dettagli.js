@@ -1,7 +1,7 @@
 var settings = {
     "size" : {
         "grid" : 16,
-        "factor" : 0,
+        "factor" : 16,
         "normalize" : true
     },
     "options" : {
