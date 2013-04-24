@@ -124,6 +124,79 @@ class TweetRepository extends EntityRepository {
             ->getQuery();
         return $qb->getResult();
     }
+   
+    public function getTweetsByEngagement(DateTime $dataInizio, $maxResults) {
+        $em = $this->getEntityManager();
+        //formula per il calcolo dell'engagement corretta solo per i tweet della giornata
+        $query = $em->createQuery('
+            SELECT
+                politico.nome,
+                politico.cognome,
+                politico.profileImage,
+                politico.id,
+                politico.gruppo,
+                tweet.testo,
+                tweet.idStr,
+                tweet.data,
+                ((tweet.numRetweet+tweet.numReplies)/politico.numFollower) as engagement 
+            FROM
+                AdisIwatchyouBundle:Tweet tweet
+            JOIN
+                tweet.idPolitico politico
+            WHERE
+                tweet.data > :data
+            ORDER BY
+                engagement DESC')
+                ->setParameter('data', $dataInizio)
+                ->setMaxResults($maxResults);
+        return $query->getResult();
+    }
+    
+    public function getParlamentareTimeline(DateTime $dataInizio, $idPolitico, $maxResults) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT
+                tweet.testo,
+                tweet.idStr,
+                tweet.data
+            FROM
+                AdisIwatchyouBundle:Tweet tweet
+            WHERE
+                tweet.data > :data
+            AND
+                tweet.idPolitico = :idPolitico
+            ORDER BY
+                tweet.data DESC')
+                ->setParameters(array('data' => $dataInizio, 'idPolitico' => $idPolitico))
+                ->setMaxResults($maxResults);
+        return $query->getResult();
+    }
+    
+    public function getTweetsByRetweet(DateTime $dataInizio, $maxResults) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT
+                politico.nome,
+                politico.cognome,
+                politico.profileImage,
+                politico.id,
+                politico.gruppo,
+                tweet.testo,
+                tweet.idStr,
+                tweet.data
+            FROM
+                AdisIwatchyouBundle:Tweet tweet
+            JOIN
+                tweet.idPolitico politico
+            WHERE
+                tweet.data > :data
+            ORDER BY
+                tweet.numRetweet DESC')
+                ->setParameter('data', $dataInizio)
+                ->setMaxResults($maxResults);
+        return $query->getResult();
+    }
+    
 }
 
 ?>

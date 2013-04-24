@@ -127,9 +127,15 @@ $(function () {
         {% endif %}
     </div>
 </div>
+{% if timeline|length > 0 %}
+<div class="row-fluid">
+    <div class="span12 page-header"><h3>La sua <em>#timeline</em></h3></div>
+</div>
+{% include 'AdisIwatchyouBundle:Include:tweetTimeline.html.twig' %}
+{% endif %}
 <div class="row-fluid">
     <div class="span12">
-        <div class="page-header"><h3>I grafici</h3></div>
+        <div class="page-header"><h3>I <em>#grafici</em></h3></div>
         <ul id ="graphTab" class="nav nav-tabs">
             <li class="active">
                 <a href="#engagement">Engagement<sup>*</sup></a>

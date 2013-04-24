@@ -12,6 +12,8 @@ class DefaultController extends Controller {
     
     private $maxResults = 20;
     private $maxResultsList = 5;
+    private $maxResultsTimelineDettagli = 10;
+    private $maxResultsTimelineFrontpage = 20;
     
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
@@ -46,19 +48,21 @@ class DefaultController extends Controller {
                     $end = true;
                 $paginator = $repositoryPolitico->findParlamentariPaginator($data['nome'], $data['ramo'], $data['regione'], $data['partito'], $this->maxResults, 1);
                 
-                return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'search', 'form' => $form->createView()));
+                return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('topRetweet' => NULL, 'topEngagement' => NULL, 'cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'search', 'form' => $form->createView()));
             }
         }
         $tweets = $repositoryTweet->findCloudFromDate($dataInizio);
         $cloud = $this->wordFrequency($tweets);
         $count = $repositoryPolitico->findAllParlamentariCount();
         $totalPages = ceil($count / $this->maxResults);
+        $topEngagement = $repositoryTweet->getTweetsByEngagement(new DateTime('today midnight'), $this->maxResultsTimelineFrontpage);
+        $topRetweet = $repositoryTweet->getTweetsByRetweet(new DateTime('today midnight'), $this->maxResultsTimelineFrontpage);
         $end = false;
         if($totalPages == 1)
             $end = true;
 
         $paginator = $repositoryPolitico->findAllParlamentari($this->maxResults, 1);
-        return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'home', 'form' => $form->createView()));
+        return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('topRetweet' => $topRetweet, 'topEngagement' => $topEngagement, 'cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'home', 'form' => $form->createView()));
     }
 
     private function wordFrequency($clouds) {
@@ -170,7 +174,7 @@ class DefaultController extends Controller {
         }
         $repositoryAccount = $em->getRepository('AdisIwatchyouBundle:Account');
         $dataInizio = new DateTime('-15 days');
-        $dataFine = new DateTime('now');
+        $dataFine = new DateTime('tomorrow');
         $statistiche = $repositoryAccount->getStatisticsDay($politico->getId());
         $form = $this->createForm(new SearchParlamentariType());
         $mostFollowed = $repositoryAccount->findMostFollowed($this->maxResultsList);
@@ -180,7 +184,8 @@ class DefaultController extends Controller {
         $repositoryTweet = $em->getRepository('AdisIwatchyouBundle:Tweet');
         $tweets = $repositoryTweet->findCloudByPoliticoFromDate($dataInizioCloud, $id);
         $cloud = $this->wordFrequency($tweets);
-        return $this->render('AdisIwatchyouBundle:Default:dettagli.html.twig', array('cloud' => $cloud, 'statistiche' => $statistiche, 'parlamentare' => $politico, 'form' => $form->createView(), 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'dataInizio' => $dataInizio->format('Y-m-d'), 'dataFine' => $dataFine->format('Y-m-d')));
+        $timeline = $repositoryTweet->getParlamentareTimeline($dataInizioCloud, $id, $this->maxResultsTimelineDettagli);
+        return $this->render('AdisIwatchyouBundle:Default:dettagli.html.twig', array('timeline' => $timeline, 'cloud' => $cloud, 'statistiche' => $statistiche, 'parlamentare' => $politico, 'form' => $form->createView(), 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'dataInizio' => $dataInizio->format('Y-m-d'), 'dataFine' => $dataFine->format('Y-m-d')));
     }
     
     public function getDataAction() {

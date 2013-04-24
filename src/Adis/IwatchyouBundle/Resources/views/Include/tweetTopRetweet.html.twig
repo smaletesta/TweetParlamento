@@ -1,0 +1,28 @@
+{% for tweet in topRetweet %}
+    {% if loop.index is odd %}
+    <div class="row-fluid">
+    {% endif %}
+    <div class="span6">
+        {% if loop.first or loop.index == 2 %}
+        <div class="clearfix timeline-tweet-first">
+        {% elseif loop.last or loop.index == (loop.length - 1) %}
+        <div class="clearfix timeline-tweet-last">
+        {% else %}
+        <div class="clearfix timeline-tweet">       
+        {% endif %}
+            <div class="span2">
+                <a href="parlamentare/{{ tweet.id }}"><img src="{{ tweet.profileImage }}" class="img-polaroid"></img></a>
+            </div>
+            <div class="span10 nome-parlamentare">
+                <a href="parlamentare/{{ tweet.id }}"><h4 class="name-custom">{{ tweet.nome }} {{ tweet.cognome }}</h4></a>
+                <div class="tweet-partito">{{ tweet.gruppo }}</div>
+                <div><p>{{ tweet.testo }}</p></div>
+                <ul class="inline"><li><a href="https://twitter.com/intent/tweet?in_reply_to={{ tweet.idStr }}&hashtags=tweetparlamento"><i class="icon-reply"></i> Risposta</a></li><li><a href="https://twitter.com/intent/retweet?tweet_id={{ tweet.idStr }}"><i class="icon-retweet"></i> Retweet</a></li><li><a href="https://twitter.com/intent/favorite?tweet_id={{ tweet.idStr }}"><i class="icon-star"></i> Preferiti</a></li></ul>
+                <div class="tweet-data">{{ tweet.data|date('d-m-Y H:i:s') }}</div>
+            </div>
+        </div>
+    </div>
+    {% if loop.index is even or loop.last%}
+    </div>
+    {% endif %}
+{% endfor %}

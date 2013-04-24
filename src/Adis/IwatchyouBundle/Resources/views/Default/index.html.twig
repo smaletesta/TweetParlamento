@@ -8,7 +8,7 @@
 {% if cloud|length > 0 %}
     <div class="row-fluid">
         <div class="span12">
-            <div class="page-header"><h3>Di cosa <em>#twittano</em></h3></div>
+            <div class="page-header"><h3>Di cosa <em>#twittano</em> in Parlamento</h3></div>
             <div id="wordcloud-home">
             {% for key, frequency in cloud %}
                 <span data-weight="{{ frequency }}">{{ key }}</span>
@@ -17,8 +17,20 @@
         </div>
     </div>
 {% endif %}
+{% if topRetweet|length > 0 %}
 <div class="row-fluid">
-    <div class="span12 page-header"><h3>Chi sono</h3></div>
+    <div class="span12 page-header"><h3>I <em>#tweet</em> più retwittati</h3></div>
+</div>
+{% include 'AdisIwatchyouBundle:Include:tweetTopRetweet.html.twig' %}
+{% endif %}
+{% if topEngagement|length > 0 %}
+<div class="row-fluid">
+    <div class="span12 page-header"><h3>I <em>#tweet</em> con engagement più alto</h3></div>
+</div>
+{% include 'AdisIwatchyouBundle:Include:tweetTopEngagement.html.twig' %}
+{% endif %}
+<div class="row-fluid">
+    <div class="span12 page-header"><h3>Chi sono i nostri <em>#Parlamentari</em></h3></div>
 </div>
 <div id="risultati">
     {% for parlamentare in parlamentari %}
