@@ -51,14 +51,6 @@
 {% endblock body_tag %}
 
 {% block body_start %}
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 {% endblock body_start %}
 
 {% block body %}
@@ -88,7 +80,7 @@
                     <ul class="dropdown-menu">
                         <li class="socials"><a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
                             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
-                        <li class="socials"><div class="fb-like" data-href="http://www.tweetparlamento.it" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div></li>  
+                        <li class="socials"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.tweetparlamento.it&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=461743347238478" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe></li>  
                         <li class="socials">
                             <div class="g-plusone" data-size="medium"></div>
 
