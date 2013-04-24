@@ -131,5 +131,7 @@ class TrackTwitterAccounts extends OauthPhirehose {
 
 // Start streaming
 $sc = new TrackTwitterAccounts(Config::USER_TOKEN, Config::USER_SECRET);
+$sc->consumerKey = Config::CONSUMER_KEY;
+$sc->consumerKey = Config::CONSUMER_SECRET;
 $sc->consume();
 
