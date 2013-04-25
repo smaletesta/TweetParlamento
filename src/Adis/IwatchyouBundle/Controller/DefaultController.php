@@ -146,7 +146,7 @@ class DefaultController extends Controller {
                 $html .='<div class="row-fluid">';
             $html .=    '<div class="span6">
                             <div class="well clearfix">
-                                <div class="span4">
+                                <div class="span3">
                                     <a href="parlamentare/'.$parlamentare->getId().'"><img src="'.str_replace('_normal', '_bigger', $parlamentare->getProfileImage()).'" class="img-polaroid"></img></a>
                                     <a href="http://twitter.com/intent/tweet/?text=@'.$parlamentare->getScreenName().'&hashtags=tweetparlamento" class="btn btn-primary btn-custom"><i class="icon-twitter"></i> Twitta</a>
                                 </div>
