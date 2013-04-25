@@ -109,14 +109,16 @@ class DefaultController extends Controller {
                 $html .='<div class="row-fluid">';
             $html .=    '<div class="span6">
                             <div class="well clearfix">
-                                <div class="span4">
+                                <div class="span3">
                                     <a href="parlamentare/'.$parlamentare->getId().'"><img src="'.str_replace('_normal', '_bigger', $parlamentare->getProfileImage()).'" class="img-polaroid"></img></a>
                                     <a href="http://twitter.com/intent/tweet/?text=@'.$parlamentare->getScreenName().'&hashtags=tweetparlamento" class="btn btn-primary btn-custom"><i class="icon-twitter"></i> Twitta</a>
                                 </div>
-                                <div class="span8 nome-parlamentare">
-                                    <a href="parlamentare/'.$parlamentare->getId().'"><h3 class="name-custom">'.$parlamentare->getNome().' '.$parlamentare->getCognome().'</h3></a>
-                                    <div class="more-info"><em>'.$parlamentare->getGruppo().' - '.ucfirst($parlamentare->getRamo()).'. Regione d\'elezione: '.$parlamentare->getCircoscrizione().'</em></div>
-                                    <div><p>'.$parlamentare->getBio().'</p></div>
+                                <div class="span9">
+                                    <div class="recap-parlamentare">
+                                        <a href="parlamentare/'.$parlamentare->getId().'"><h3 class="name-custom">'.$parlamentare->getNome().' '.$parlamentare->getCognome().'</h3></a>
+                                        <div class="more-info"><em>'.$parlamentare->getGruppo().' - '.ucfirst($parlamentare->getRamo()).'. Regione d\'elezione: '.$parlamentare->getCircoscrizione().'</em></div>
+                                        <div><p>'.$parlamentare->getBio().'</p></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>';
@@ -148,10 +150,12 @@ class DefaultController extends Controller {
                                     <a href="parlamentare/'.$parlamentare->getId().'"><img src="'.str_replace('_normal', '_bigger', $parlamentare->getProfileImage()).'" class="img-polaroid"></img></a>
                                     <a href="http://twitter.com/intent/tweet/?text=@'.$parlamentare->getScreenName().'&hashtags=tweetparlamento" class="btn btn-primary btn-custom"><i class="icon-twitter"></i> Twitta</a>
                                 </div>
-                                <div class="span8 nome-parlamentare">
-                                    <a href="parlamentare/'.$parlamentare->getId().'"><h3 class="name-custom">'.$parlamentare->getNome().' '.$parlamentare->getCognome().'</h3></a>
-                                    <div class="more-info"><em>'.$parlamentare->getGruppo().' - '.ucfirst($parlamentare->getRamo()).'. Regione d\'elezione: '.$parlamentare->getCircoscrizione().'</em></div>
-                                    <div><p>'.$parlamentare->getBio().'</p></div>
+                                <div class="span9">
+                                    <div class="recap-parlamentare">
+                                        <a href="parlamentare/'.$parlamentare->getId().'"><h3 class="name-custom">'.$parlamentare->getNome().' '.$parlamentare->getCognome().'</h3></a>
+                                        <div class="more-info"><em>'.$parlamentare->getGruppo().' - '.ucfirst($parlamentare->getRamo()).'. Regione d\'elezione: '.$parlamentare->getCircoscrizione().'</em></div>
+                                        <div><p>'.$parlamentare->getBio().'</p></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>';

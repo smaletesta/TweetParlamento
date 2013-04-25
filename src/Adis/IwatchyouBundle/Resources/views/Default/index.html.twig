@@ -39,14 +39,16 @@
         {% endif %}
         <div class="span6">
             <div class="well clearfix">
-                <div class="span4">
+                <div class="span3">
                     <a href="parlamentare/{{ parlamentare.id }}"><img src="{{ parlamentare.profileImage|replace({"_normal" : "_bigger"}) }}" class="img-polaroid"></img></a>
                     <a href="http://twitter.com/intent/tweet/?text=@{{ parlamentare.screenname }}&hashtags=tweetparlamento" class="btn btn-primary btn-custom"><i class="icon-twitter"></i> Twitta</a>
                 </div>
-                <div class="span8 nome-parlamentare">
-                    <a href="parlamentare/{{ parlamentare.id }}"><h3 class="name-custom">{{ parlamentare.nome }} {{ parlamentare.cognome }}</h3></a>
-                    <div class="more-info"><em>{{ parlamentare.gruppo }} - {{ parlamentare.ramo|capitalize }}. Regione d'elezione: {{ parlamentare.circoscrizione }}</em></div>
-                    <div><p>{{ parlamentare.bio }}</p></div>
+                <div class="span9">
+                    <div class="recap-parlamentare">
+                        <a href="parlamentare/{{ parlamentare.id }}"><h3 class="name-custom">{{ parlamentare.nome }} {{ parlamentare.cognome }}</h3></a>
+                        <div class="more-info"><em>{{ parlamentare.gruppo }} - {{ parlamentare.ramo|capitalize }}. Regione d'elezione: {{ parlamentare.circoscrizione }}</em></div>
+                        <div><p>{{ parlamentare.bio }}</p></div>
+                    </div>
                 </div>
             </div>
         </div>
