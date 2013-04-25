@@ -56,13 +56,23 @@ class DefaultController extends Controller {
         $count = $repositoryPolitico->findAllParlamentariCount();
         $totalPages = ceil($count / $this->maxResults);
         $topEngagement = $repositoryTweet->getTweetsByEngagement(new DateTime('today midnight'), $this->maxResultsTimelineFrontpage);
+        $topEngagementLinked = array();
+        foreach($topEngagement as $tweet){
+            $tweet['testo'] = $this->formatUrlsInTweet($tweet['testo']);
+            $topEngagementLinked[] = $tweet;
+        }
         $topRetweet = $repositoryTweet->getTweetsByRetweet(new DateTime('today midnight'), $this->maxResultsTimelineFrontpage);
+        $topRetweetLinked = array();
+        foreach($topRetweet as $tweet){
+            $tweet['testo'] = $this->formatUrlsInTweet($tweet['testo']);
+            $topRetweetLinked[] = $tweet;
+        }
         $end = false;
         if($totalPages == 1)
             $end = true;
 
         $paginator = $repositoryPolitico->findAllParlamentari($this->maxResults, 1);
-        return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('topRetweet' => $topRetweet, 'topEngagement' => $topEngagement, 'cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'home', 'form' => $form->createView()));
+        return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('topRetweet' => $topRetweetLinked, 'topEngagement' => $topEngagementLinked, 'cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'home', 'form' => $form->createView()));
     }
 
     private function wordFrequency($clouds) {
@@ -189,7 +199,12 @@ class DefaultController extends Controller {
         $tweets = $repositoryTweet->findCloudByPoliticoFromDate($dataInizioCloud, $id);
         $cloud = $this->wordFrequency($tweets);
         $timeline = $repositoryTweet->getParlamentareTimeline($dataInizioCloud, $id, $this->maxResultsTimelineDettagli);
-        return $this->render('AdisIwatchyouBundle:Default:dettagli.html.twig', array('timeline' => $timeline, 'cloud' => $cloud, 'statistiche' => $statistiche, 'parlamentare' => $politico, 'form' => $form->createView(), 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'dataInizio' => $dataInizio->format('Y-m-d'), 'dataFine' => $dataFine->format('Y-m-d')));
+        $timelineLinked = array();
+        foreach($timeline as $tweet){
+            $tweet['testo'] = $this->formatUrlsInTweet($tweet['testo']);
+            $timelineLinked[] = $tweet;
+        }
+        return $this->render('AdisIwatchyouBundle:Default:dettagli.html.twig', array('timeline' => $timelineLinked, 'cloud' => $cloud, 'statistiche' => $statistiche, 'parlamentare' => $politico, 'form' => $form->createView(), 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'dataInizio' => $dataInizio->format('Y-m-d'), 'dataFine' => $dataFine->format('Y-m-d')));
     }
     
     public function getDataAction() {
@@ -241,7 +256,19 @@ class DefaultController extends Controller {
         $mostFollowed = $repositoryAccount->findMostFollowed($this->maxResultsList);
         $mostActive = $repositoryAccount->findMostActive($this->maxResultsList);
         return $this->render('AdisIwatchyouBundle:Default:about.html.twig', array('mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'form' => $form->createView()));
-
-        
+    }
+    
+    private function formatUrlsInTweet($tweet){
+        $reg_exUrl = "/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+        $matches = array();
+        preg_match_all($reg_exUrl, $tweet, $matches);
+        $usedPatterns = array();
+        foreach($matches[0] as $pattern){
+            if(!array_key_exists($pattern, $usedPatterns)){
+                $usedPatterns[$pattern]=true;
+                $tweet = str_replace  ($pattern, '<a href="'.$pattern.'" rel="nofollow" target="blank">'.$pattern.'</a>', $tweet);   
+            }
+        }
+        return $tweet;            
     }
 }
