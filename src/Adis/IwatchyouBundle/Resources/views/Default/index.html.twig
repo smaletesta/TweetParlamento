@@ -62,8 +62,8 @@
 </div>
 <div id="loading"><p class="text-center"><i class="icon-spinner icon-spin icon-2x"></i></p></div>
 {% if location == 'home' %}
-    <script type="text/javascript">var url = '\getparlamentari';</script>
+    <script type="text/javascript">var url = '{{ path('adis_iwatchyou_getparlamentari') }}';</script>
 {% elseif location == 'search' %}
-    <script type="text/javascript">var url = '\searchparlamentari';</script>
+    <script type="text/javascript">var url = '{{ path('adis_iwatchyou_getparlamentari') }}';</script>
 {% endif %}
 {% endblock content_content %}
