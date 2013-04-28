@@ -203,7 +203,7 @@ class Tweet {
             'facessero','facendo','','','sto','stai','sta','stiamo','stanno',
             'stia','stiate','stiano','starò','starai','starà','staremo',
             'starete','staranno','starei','staresti','starebbe','staremmo',
-            'stareste','starebbero','stavo','stavi','stava','stavamo',
+            'stareste','starebbero','stavo','stavi','stava','stavamo','via',
             'stavate','stavano','stetti','stesti','stette','stemmo','steste',
             'stettero','stessi','stesse','stessimo','stessero','stando','rt',
             '0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y',
@@ -213,14 +213,14 @@ class Tweet {
         $tweet = mb_strtolower($tweet, 'UTF8');
         foreach($stopWords as $stopWord){
             //$tweet = preg_replace("/\b".$stopWord."\b/i", "", $tweet);
-            $tweet = preg_replace("/(?<!\pL)".$stopWord."(?!\pL)/u", "", $tweet);  
+            $tweet = preg_replace("/(?<![\pL\pN])".$stopWord."(?![\pL\pN])/u", "", $tweet);  
         }
         $tweet = preg_replace("%(http|https)://[^\s]+%u", '', $tweet);
         //strip screenname
         $tweet = preg_replace("%@[^\s]+%u", '', $tweet);
         $tweet = strip_tags($tweet);
         //punteggiatura
-        $tweet = preg_replace('/[^\p{L}0-9\s]|\n|\r/u',' ',$tweet);
+        $tweet = preg_replace('/[^\p{L}0-9\s]|\n|\r/u','',$tweet);
         //spazi extra
         $tweet = preg_replace('/ +/',' ',$tweet);
       
