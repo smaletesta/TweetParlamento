@@ -69,12 +69,18 @@ class AccountRepository extends EntityRepository {
     }
     
     public function getStatisticsDay($idPolitico) {
+        $em = $this->getEntityManager();
+        $queryMaxDate = $em->createQuery('SELECT MAX(account.data)
+            FROM AdisIwatchyouBundle:Account account
+            WHERE account.idPolitico = :id')
+                ->setParameter('id', $idPolitico);
+        $maxDate = $queryMaxDate->getResult();
         $qb = $this->createQueryBuilder('account')
             ->select('account ')
             ->where('account.data >= :giorno')
             ->andWhere('account.idPolitico = :id')
             ->orderBy('account.data', 'DESC')
-            ->setParameters(array('giorno' => new DateTime('today midnight'), 'id' => $idPolitico))
+            ->setParameters(array('giorno' => $maxDate, 'id' => $idPolitico))
             ->getQuery();
         return $qb->getResult();
     }
