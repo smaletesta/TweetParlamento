@@ -18,7 +18,12 @@
                     <h4 class="name-custom">{{ parlamentare.nome }} {{ parlamentare.cognome }}</h4>
                     <div class="tweet-partito">{{ parlamentare.gruppo }}</div>
                     <div><p>{{ tweet.testo|raw }}</p></div>
-                    <ul class="inline"><li><a href="https://twitter.com/intent/tweet?in_reply_to={{ tweet.idStr }}&hashtags=tweetparlamento"><i class="icon-reply"></i> Risposta</a></li><li><a href="https://twitter.com/intent/retweet?tweet_id={{ tweet.idStr }}"><i class="icon-retweet"></i> Retweet</a></li><li><a href="https://twitter.com/intent/favorite?tweet_id={{ tweet.idStr }}"><i class="icon-star"></i> Preferiti</a></li></ul>
+                    <ul class="inline">
+                        <li><a href="https://twitter.com/intent/tweet?in_reply_to={{ tweet.idStr }}&hashtags=tweetparlamento"><i class="icon-reply"></i> Risposta</a></li>
+                        <li><a href="https://twitter.com/intent/retweet?tweet_id={{ tweet.idStr }}"><i class="icon-retweet"></i> Retweet</a></li>
+                        <li><a href='https://twitter.com/intent/tweet?text="@{{ parlamentare.screenname }}: {{ tweet.testo|striptags }}"&hashtags=tweetparlamento'><i class="icon-retweet"></i> Cita</a></li>
+                        <li><a href="https://twitter.com/intent/favorite?tweet_id={{ tweet.idStr }}"><i class="icon-star"></i> Preferiti</a></li>
+                    </ul>
                     <div class="tweet-data">{{ tweet.data|date('d-m-Y H:i:s') }}</div>
                 </div>
             </div>

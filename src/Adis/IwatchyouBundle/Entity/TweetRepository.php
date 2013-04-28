@@ -135,6 +135,7 @@ class TweetRepository extends EntityRepository {
                 politico.profileImage,
                 politico.id,
                 politico.gruppo,
+                politico.screenname,
                 tweet.testo,
                 tweet.idStr,
                 tweet.data,
@@ -181,6 +182,7 @@ class TweetRepository extends EntityRepository {
                 politico.profileImage,
                 politico.id,
                 politico.gruppo,
+                politico.screenname,
                 tweet.testo,
                 tweet.idStr,
                 tweet.data
