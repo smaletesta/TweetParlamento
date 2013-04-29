@@ -35,26 +35,26 @@ class DefaultController extends Controller {
                 $session->set('data', $data);
                 $tweets = $repositoryTweet->findCloudByPoliticiFromDate($data['nome'], $data['ramo'], $data['regione'], $data['partito'], $dataInizio);
                 $cloud = $this->wordFrequency($tweets);
-                $parlamentariCount = $repositoryPolitico->findParlamentariCount($data['nome'], $data['ramo'], $data['regione'], $data['partito']);
-                if($parlamentariCount == 0) {
+                $paginator = $repositoryPolitico->findParlamentariPaginator($data['nome'], $data['ramo'], $data['regione'], $data['partito'], $this->maxResults, 1);
+                if(count($paginator) == 0) {
                     $session->getFlashBag()->add('error', 'La ricerca non ha prodotto risultati, prova a cercare qualcos\'altro');
                     return $this->redirect($this->generateUrl('adis_iwatchyou_homepage'));
                 }
                 if(count($cloud) == 0)
                     $session->getFlashBag()->add('notice', 'Negli ultimi tempi i Parlamentari che hai cercato non hanno twittato, perché non li inviti a farlo utilizzando il pulsante \'Twitta\' sotto la foto?');
-                $totalPages = ceil($parlamentariCount / $this->maxResults);
+                $totalPages = ceil(count($paginator) / $this->maxResults);
                 $end = false;
                 if($totalPages == 1)
                     $end = true;
-                $paginator = $repositoryPolitico->findParlamentariPaginator($data['nome'], $data['ramo'], $data['regione'], $data['partito'], $this->maxResults, 1);
+                
                 
                 return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('topRetweet' => NULL, 'topEngagement' => NULL, 'cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'search', 'form' => $form->createView()));
             }
         }
         $tweets = $repositoryTweet->findCloudFromDate($dataInizio);
         $cloud = $this->wordFrequency($tweets);
-        $count = $repositoryPolitico->findAllParlamentariCount();
-        $totalPages = ceil($count / $this->maxResults);
+        $paginator = $repositoryPolitico->findAllParlamentari($this->maxResults, 1);
+        $totalPages = ceil(count($paginator) / $this->maxResults);
         $topEngagement = $repositoryTweet->getTweetsByEngagement(new DateTime('today midnight'), $this->maxResultsTimelineFrontpage);
         $topEngagementLinked = array();
         foreach($topEngagement as $tweet){
@@ -70,8 +70,6 @@ class DefaultController extends Controller {
         $end = false;
         if($totalPages == 1)
             $end = true;
-
-        $paginator = $repositoryPolitico->findAllParlamentari($this->maxResults, 1);
         return $this->render('AdisIwatchyouBundle:Default:index.html.twig', array('topRetweet' => $topRetweetLinked, 'topEngagement' => $topEngagementLinked, 'cloud' => $cloud, 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'parlamentari' => $paginator, 'end' => $end, 'location' => 'home', 'form' => $form->createView()));
     }
 
@@ -105,13 +103,8 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         
         $repository = $em->getRepository('AdisIwatchyouBundle:Politico');
-        $parlamentariCount = $repository->findParlamentariCount($data['nome'], $data['ramo'], $data['regione'], $data['partito']);;
-        $totalPages = ceil($parlamentariCount / $this->maxResults);
-        $end = false;
-        if($totalPages == 1)
-            $end = true;
-     
         $paginator = $repository->findParlamentariPaginator($data['nome'], $data['ramo'], $data['regione'], $data['partito'], $this->maxResults, $page);
+        $totalPages = ceil(count($paginator) / $this->maxResults);
         $html = null;
         $i = 0;
         foreach ($paginator as $parlamentare) {
@@ -132,10 +125,12 @@ class DefaultController extends Controller {
                                 </div>
                             </div>
                         </div>';
-            if(($i % 2 != 0) || ($i == count($paginator) - 1))
+            if($i % 2 != 0)
                 $html .= '</div>';
             $i++;
         }
+        if(($i % 2 != 0) && ($i < $this->maxResults))
+            $html .= '</div>';
         if($page == $totalPages)
             $html .= '<div id="end"></div>';
         return new Response($html, 200, array('Content-Type'=>'text/html'));
@@ -145,10 +140,9 @@ class DefaultController extends Controller {
         $page = $request->get('page');
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AdisIwatchyouBundle:Politico');
-        $count = $repository->findAllParlamentariCount();
-        $totalPages = ceil($count / $this->maxResults);
-       
         $paginator = $repository->findAllParlamentari($this->maxResults, $page);
+        $totalPages = ceil(count($paginator) / $this->maxResults);
+       
         $html = null;
         $i = 0;
         foreach ($paginator as $parlamentare) {
@@ -169,10 +163,12 @@ class DefaultController extends Controller {
                                 </div>
                             </div>
                         </div>';
-            if(($i % 2 != 0) || ($i == count($paginator) - 1))
+            if($i % 2 != 0)
                 $html .= '</div>';
             $i++;
         }
+        if(($i % 2 != 0) && ($i < $this->maxResults))
+            $html .= '</div>';
         if($page == $totalPages)
             $html .= '<div id="end"></div>';
         return new Response($html, 200, array('Content-Type'=>'text/html'));
