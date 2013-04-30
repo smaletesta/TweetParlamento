@@ -199,6 +199,42 @@ class TweetRepository extends EntityRepository {
         return $query->getResult();
     }
     
+    public function findTweetsWithWordPaginator(DateTime $dataInizio, $word, $maxResults, $page) {
+        $firstResult = ($page - 1) * $maxResults;
+        $em = $this->getEntityManager();
+        $dql = '
+            SELECT
+                tweet, politico
+            FROM
+                AdisIwatchyouBundle:Tweet tweet
+            JOIN
+                tweet.idPolitico politico
+            WHERE
+                tweet.data > :data
+            AND
+                tweet.testo LIKE :word
+            ORDER BY
+                tweet.data DESC';
+        $query = $em->createQuery($dql)
+                ->setParameters(array('data' => $dataInizio, 'word' => "%{$word}%"))
+                ->setFirstResult($firstResult)
+                ->setMaxResults($maxResults);
+        return new Paginator($query, $fetchJoinCollection = true);
+    }
+    
+    public function findTweetsWithWordCount(DateTime $dataInizio, $word){
+        $qb = $this->createQueryBuilder('tweet')
+            ->select('COUNT(tweet)');
+
+        $qb->andWhere('tweet.testo LIKE :word')
+            ->setParameter('word', "%{$word}%");
+        
+        $qb->andWhere('tweet.data > :data')
+            ->setParameter('data', $dataInizio);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
 }
 
 ?>

@@ -25,3 +25,13 @@ adis_iwatchyou_getdata:
 adis_iwatchyou_about:
     pattern:  /about
     defaults: { _controller: AdisIwatchyouBundle:Default:about }
+adis_iwatchyou_termine:
+    pattern: /termine/{word}
+    defaults: { _controller: AdisIwatchyouBundle:Default:termine }
+    requirements:
+      _method:  GET
+adis_iwatchyou_gettermine:
+    pattern:  /gettermine/{word}
+    defaults: { _controller: AdisIwatchyouBundle:Default:getTermine }
+    requirements:
+      _method:  POST

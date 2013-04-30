@@ -267,4 +267,86 @@ class DefaultController extends Controller {
         }
         return $tweet;            
     }
+    
+    
+    public function termineAction($word) {
+        $em = $this->getDoctrine()->getManager();
+        
+        $dataInizio = new DateTime('-3 days'); 
+        $repositoryTweet = $em->getRepository('AdisIwatchyouBundle:Tweet');
+        
+        $form = $this->createForm(new SearchParlamentariType());
+        
+        $repositoryAccount = $em->getRepository('AdisIwatchyouBundle:Account');
+        $mostFollowed = $repositoryAccount->findMostFollowed($this->maxResultsList);
+        $mostActive = $repositoryAccount->findMostActive($this->maxResultsList);
+        
+        $wordWithSpaces = ' '.$word.' ';
+        
+        $tweets = $repositoryTweet->findTweetsWithWordPaginator($dataInizio, $wordWithSpaces, $this->maxResults, 1);
+        
+        $totalPages = ceil(count($tweets) / $this->maxResults);      
+        
+        foreach($tweets as $tweet){
+            $tweet->setTesto($this->formatUrlsInTweet($tweet->getTesto()));
+        }
+        
+        $end = false;
+        if($totalPages == 1)
+            $end = true;
+        
+        return $this->render('AdisIwatchyouBundle:Default:termine.html.twig', array( 'mostFollowed' => $mostFollowed, 'mostActive' => $mostActive, 'tweets' => $tweets, 'end' => $end, 'location' => 'termine', 'word' => $word, 'form' => $form->createView()));
+    }
+    
+    public function getTermineAction(Request $request) {
+        $page = $request->get('page');
+        $dataInizio = new DateTime('-3 days');
+        $word = $request->get('word');
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AdisIwatchyouBundle:Tweet');
+        
+        $wordWithSpaces = ' '.$word.' ';
+        
+        $tweets = $repository->findTweetsWithWordPaginator($dataInizio, $wordWithSpaces, $this->maxResults, $page);
+        
+        $totalPages = ceil(count($tweets) / $this->maxResults);
+        
+        $html = null;
+        $i = 0;
+        foreach ($tweets as $tweet) {
+            if($i % 2 == 0)
+                $html .='<div class="row-fluid">';
+
+            $html .='<div class="span6">
+                    <div class="clearfix timeline-tweet">     
+
+                    <div class="span2">
+                        <a href="../parlamentare/'. $tweet->getIdPolitico()->getId().'">
+                        <img src="'.$tweet->getIdPolitico()->getProfileImage().'" class="img-polaroid"></img></a>
+                    </div>
+                    <div class="span10">
+                        <div class="tweet-body">
+                            <a href="../parlamentare/'. $tweet->getIdPolitico()->getId().'"><h4 class="name-custom">'. $tweet->getIdPolitico()->getNome().' '. $tweet->getIdPolitico()->getCognome().'</h4></a>
+                            <div class="tweet-partito">'. $tweet->getIdPolitico()->getGruppo().'</div>
+                            <div><p>'.$tweet->getTesto().'</p></div>
+                            <ul class="inline"><li><a href="https://twitter.com/intent/tweet?in_reply_to='.$tweet->getIdStr().'&hashtags=tweetparlamento"><i class="icon-reply"></i> Risposta</a></li><li><a href="https://twitter.com/intent/retweet?tweet_id='. $tweet->getIdStr().'"><i class="icon-retweet"></i> Retweet</a></li><li><a href="https://twitter.com/intent/favorite?tweet_id='. $tweet->getIdStr().'"><i class="icon-star"></i> Preferiti</a></li></ul>
+                            <div class="tweet-data">'. $tweet->getData()->format('d-m-Y H:i:s').'</div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+            if($i % 2 != 0)
+                $html .= '</div>';
+            $i++;
+        }
+        
+        if(($i % 2 != 0) && ($i < $this->maxResults))
+                $html .= '</div>';
+        
+        if($page == $totalPages)
+                $html .= '<div id="end"></div>';
+        return new Response($html, 200, array('Content-Type'=>'text/html'));
+    }    
+
 }
