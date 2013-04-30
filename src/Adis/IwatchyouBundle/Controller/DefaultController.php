@@ -329,7 +329,7 @@ class DefaultController extends Controller {
                         <div class="tweet-body">
                             <a href="../parlamentare/'. $tweet->getIdPolitico()->getId().'"><h4 class="name-custom">'. $tweet->getIdPolitico()->getNome().' '. $tweet->getIdPolitico()->getCognome().'</h4></a>
                             <div class="tweet-partito">'. $tweet->getIdPolitico()->getGruppo().'</div>
-                            <div><p>'.$tweet->getTesto().'</p></div>
+                            <div><p>'.$this->formatUrlsInTweet($tweet->getTesto()).'</p></div>
                             <ul class="inline"><li><a href="https://twitter.com/intent/tweet?in_reply_to='.$tweet->getIdStr().'&hashtags=tweetparlamento"><i class="icon-reply"></i> Risposta</a></li><li><a href="https://twitter.com/intent/retweet?tweet_id='. $tweet->getIdStr().'"><i class="icon-retweet"></i> Retweet</a></li><li><a href="https://twitter.com/intent/favorite?tweet_id='. $tweet->getIdStr().'"><i class="icon-star"></i> Preferiti</a></li></ul>
                             <div class="tweet-data">'. $tweet->getData()->format('d-m-Y H:i:s').'</div>
                         </div>
