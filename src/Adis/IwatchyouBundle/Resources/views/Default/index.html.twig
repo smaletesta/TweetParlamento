@@ -11,7 +11,11 @@
             <div class="page-header"><h3>Di cosa <em>#twittano</em> in Parlamento</h3></div>
             <div id="wordcloud-home">
             {% for key, frequency in cloud %}
-                <span data-weight="{{ frequency }}"><a href='{{ path('adis_iwatchyou_termine', {'word': key}) }}'>{{ key }}</a></span>
+                    {% if location == 'home' %}
+                        <span data-weight="{{ frequency }}"><a href='{{ path('adis_iwatchyou_termine', {'word': key}) }}'>{{ key }}</a></span>
+                    {% else %}
+                        <span data-weight="{{ frequency }}">{{ key }}</span>
+                    {% endif %}
             {% endfor%}
             </div>
         </div>
