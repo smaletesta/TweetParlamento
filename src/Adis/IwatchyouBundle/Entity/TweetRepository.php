@@ -3,6 +3,7 @@
 namespace Adis\IwatchyouBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use DateTime;
 
 class TweetRepository extends EntityRepository {
