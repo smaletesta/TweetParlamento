@@ -216,8 +216,7 @@ class TweetRepository extends EntityRepository {
             ORDER BY
                 tweet.data DESC';
         $query = $em->createQuery($dql)
-                ->setParameter('data', $dataInizio)
-                ->setParameter('word', "%{$word}%")
+                ->setParameters(array('data' => $dataInizio, 'word' => "%{$word}%"))
                 ->setFirstResult($firstResult)
                 ->setMaxResults($maxResults);
         return new Paginator($query, $fetchJoinCollection = true);
