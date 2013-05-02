@@ -285,7 +285,15 @@ class DefaultController extends Controller {
         
         $tweets = $repositoryTweet->findTweetsWithWordPaginator($dataInizio, $wordWithSpaces, $this->maxResults, 1);
         
-        $totalPages = ceil(count($tweets) / $this->maxResults);      
+        $countTweets = count($tweets);
+        
+        if ($countTweets == 0) {
+            $session = $this->get('session');
+            $session->getFlashBag()->add('error', 'Non ci sono tweet contenenti questo termine');
+            return $this->redirect($this->generateUrl('adis_iwatchyou_homepage'));
+        }
+        
+        $totalPages = ceil($countTweets / $this->maxResults);     
         
         foreach($tweets as $tweet){
             $tweet->setTesto($this->formatUrlsInTweet($tweet->getTesto()));
