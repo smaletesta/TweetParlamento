@@ -281,9 +281,7 @@ class DefaultController extends Controller {
         $mostFollowed = $repositoryAccount->findMostFollowed($this->maxResultsList);
         $mostActive = $repositoryAccount->findMostActive($this->maxResultsList);
         
-        $wordWithSpaces = ' '.$word.' ';
-        
-        $tweets = $repositoryTweet->findTweetsWithWordPaginator($dataInizio, $wordWithSpaces, $this->maxResults, 1);
+        $tweets = $repositoryTweet->findTweetsWithWordPaginator($dataInizio, $word, $this->maxResults, 1);
         
         $countTweets = count($tweets);
         
@@ -314,9 +312,7 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AdisIwatchyouBundle:Tweet');
         
-        $wordWithSpaces = ' '.$word.' ';
-        
-        $tweets = $repository->findTweetsWithWordPaginator($dataInizio, $wordWithSpaces, $this->maxResults, $page);
+        $tweets = $repository->findTweetsWithWordPaginator($dataInizio, $word, $this->maxResults, $page);
         
         $totalPages = ceil(count($tweets) / $this->maxResults);
         

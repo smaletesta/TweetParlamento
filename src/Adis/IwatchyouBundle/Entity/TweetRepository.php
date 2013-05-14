@@ -201,6 +201,7 @@ class TweetRepository extends EntityRepository {
     }
     
     public function findTweetsWithWordPaginator(DateTime $dataInizio, $word, $maxResults, $page) {
+    	$wordparameter = '%"'.$word.'"%';
         $firstResult = ($page - 1) * $maxResults;
         $em = $this->getEntityManager();
         $dql = '
@@ -213,11 +214,11 @@ class TweetRepository extends EntityRepository {
             WHERE
                 tweet.data > :data
             AND
-                tweet.testo LIKE :word
+                tweet.wordCloud LIKE :word
             ORDER BY
                 tweet.data DESC';
         $query = $em->createQuery($dql)
-                ->setParameters(array('data' => $dataInizio, 'word' => "%{$word}%"))
+                ->setParameters(array('data' => $dataInizio, 'word' => $wordparameter))
                 ->setFirstResult($firstResult)
                 ->setMaxResults($maxResults);
         return new Paginator($query, $fetchJoinCollection = true);
